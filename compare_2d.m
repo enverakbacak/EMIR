@@ -5,23 +5,20 @@ clear all;
 clc;
 
 %{
-load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/hashCodes/hashCodes_128.mat');
-data = hashCodes_128;
-%load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/features/features_64.mat');
-%features = features_64;
+load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/hashCodes/hashCodes_16.mat');
+data = hashCodes_16;
+%load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/features/features_16.mat');
+%features = features_16;
 load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/hashCodes/targets.mat');
 targets = targets;
 load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/hashCodes/filenames.mat');
 filenames = filenames;
 N = length(filenames);
 queryIndex = xlsread('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/qLabels_V2.xls');  % Reads randomly choosen query pairs from excell filequeryIndex = transpose( queryIndex ); 
-queryIndex = transpose( queryIndex ); 
-queryIndex1 = queryIndex(1,:);        % First element of Query Pair
-queryIndex2 = queryIndex(2,:);        % Second element of Query Pair
 
 %}
 
-
+%{
 load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/streetsDataset/hashCodes/hashCodes_128.mat');
 data = hashCodes_128;
 %load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/streetsDataset/features/features_16.mat');
@@ -32,15 +29,48 @@ load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/streetsDataset/hashCo
 filenames = filenames;
 N = length(filenames);
 queryIndex = xlsread('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/streetsDataset/streets_2d.xls');  % Reads randomly choosen query pairs from excell filequeryIndex = transpose( queryIndex ); 
+
+%}
+  
+
+
+
+load('Lamda/hashCodes/hashCodes_128.mat');
+data = hashCodes_128;
+data = max(data,0);
+%load('Lamda/features/features_16.mat');
+%features = features_16;
+load('Lamda/hashCodes/targets.mat');
+targets = targets;
+load('Lamda/hashCodes/filenames.mat');
+queryIndex = xlsread('Lamda/qGroups_2d.xls');
+filenames = filenames;
+N = length(filenames);
+%}
+
+%{
+load('Barcelona/hashCodes/hashCodes_64.mat');
+data = hashCodes_64;
+data = max(data,0);
+%load('Barcelona/features/features_16.mat');
+%features = features_16;
+load('Barcelona/hashCodes/targets.mat');
+targets = targets;
+load('Barcelona/hashCodes/filenames.mat');
+queryIndex = xlsread('Barcelona/qGroups_2d.xls');
+filenames = filenames;
+N = length(filenames);
+%}
+
+
 queryIndex = transpose( queryIndex ); 
 queryIndex1 = queryIndex(1,:);        % First element of Query Pair
 queryIndex2 = queryIndex(2,:);        % Second element of Query Pair
-%}
-  
-        
-maxFront = 20;  
 
- for l = 1:240 % Number of Query Pairs , CAN TRY FOR DIFFERENT HAMMING RADIUS ALSO ?????? how?
+maxFront = 3;           % tHE NUMBER OF pARETO FRONTS
+P = maxFront;           % The number points nearest to MQOP
+
+ for l = 1:500 % 500 FOR LAMDA, 300 FOR BARCELONA
               
        union_of_query_labels{l,:} = or(targets(queryIndex(1,l), :), targets(queryIndex(2,l), : ));       
        absolute_union_of_query_labels{l,:} = nnz(union_of_query_labels{l,:} );     
@@ -73,7 +103,12 @@ maxFront = 20;
         y2{l,:} = zeros(N,1);
         y2{l,:}(queryIndex2(l)) = 1; % Ranking  of query2 = 1
     
-    
+        opts.p=100; 	% the number of landmarks picked 
+        opts.r=5;  	% the number of nearest landmarks for representation (default 5)
+        opts.a=0.99; 	% weight in manifold ranking, score = (I - aS)^(-1)y, default  0.99
+        kmMaxIter = 5;
+        kmNumRep = 1;
+        
         [H A landmarks Z] = EMRcomputeModel(data); % Compute EMR
         simEMR1{l,:} = EMRscore(H ,A, y1{l,:});  % EMR Ranking
         simEMR2{l,:} = EMRscore(H ,A, y2{l,:});  % EMR Ranking
@@ -104,7 +139,7 @@ maxFront = 20;
  
 
        %%%%%%%%%%%%% Choose First P Shortest Pareto point to OPTIMAL POINT %%%%%%%%%%%%%%%%%%%%%%%%       
-       P = 20;
+       
        DissimIndex_P                      =    DissimIndex(1:P, :); 
        Retrieved_PP_indexes{l,:}          =    ismember(X, input(DissimIndex_P,:),'rows');  % IF MQUR == 1
        Retrieved_Items_EMQR{l,:}          =    find(Retrieved_PP_indexes{l,:} ); 
@@ -182,6 +217,6 @@ maxFront = 20;
  avg_acc_DMQIR = sum(mean_acc_DMQIR(:,1)) / l;
  avg_acc_EMR   = sum(mean_acc_EMR(:,1)) / l;
  
- avg_acc_EMQR  = mean(acc_EMQR);
+ avg_acc_EMIR  = mean(acc_EMQR);
 
 

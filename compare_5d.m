@@ -4,7 +4,7 @@ close all;
 clear all;
 clc;
 
-
+%{
 load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/hashCodes/hashCodes_32.mat');
 data = hashCodes_32;
 %load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/features/features_64.mat');
@@ -31,6 +31,35 @@ filenames = filenames;
 N = length(filenames);
 %}
 
+%{
+load('Lamda/hashCodes/hashCodes_64.mat');
+data = hashCodes_64;
+data = max(data,0);
+%load('Lamda/features/features_16.mat');
+%features = features_16;
+load('Lamda/hashCodes/targets.mat');
+targets = targets;
+load('Lamda/hashCodes/filenames.mat');
+queryIndex = xlsread('Lamda/qGroups_5d.xls');
+filenames = filenames;
+N = length(filenames);
+%}
+
+
+load('Barcelona/hashCodes/hashCodes_64.mat');
+data = hashCodes_64;
+data = max(data,0);
+%load('Barcelona/features/features_16.mat');
+%features = features_16;
+load('Barcelona/hashCodes/targets.mat');
+targets = targets;
+load('Barcelona/hashCodes/filenames.mat');
+queryIndex = xlsread('Barcelona/qGroups_5d.xls');
+filenames = filenames;
+N = length(filenames);
+%}
+
+
 queryIndex = transpose( queryIndex ); 
 queryIndex1 = queryIndex(1,:);        % First element of Query Triplets
 queryIndex2 = queryIndex(2,:);        % Second element of Query Triplets
@@ -40,7 +69,7 @@ queryIndex5 = queryIndex(5,:);
 
 maxFront = 3;  
 
- for l = 1:250 % Number of Query Pairs , CAN TRY FOR DIFFERENT HAMMING RADIUS ALSO ?????? how?
+ for l = 1:240 % Number of Query Pairs , CAN TRY FOR DIFFERENT HAMMING RADIUS ALSO ?????? how?
        
        union_of_query_labels{l,:} = or(targets(queryIndex(1,l), :), targets(queryIndex(2,l), : )); 
        union_of_query_labels{l,:} = or(union_of_query_labels{l,:},  targets(queryIndex(3,l), : )); 

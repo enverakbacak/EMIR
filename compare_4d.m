@@ -4,7 +4,7 @@ close all;
 clear all;
 clc;
 
-
+%{
 load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/hashCodes/hashCodes_32.mat');
 data = hashCodes_32;
 %load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/features/features_64.mat');
@@ -29,6 +29,36 @@ load('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/streetsDataset/hashCo
 filenames = filenames;
 N = length(filenames);queryIndex = xlsread('/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/streetsDataset/streets_4d.xls');  % Reads randomly choosen query pairs from excell file
 %}
+
+%{
+load('Lamda/hashCodes/hashCodes_64.mat');
+data = hashCodes_64;
+data = max(data,0);
+%load('Lamda/features/features_16.mat');
+%features = features_16;
+load('Lamda/hashCodes/targets.mat');
+targets = targets;
+load('Lamda/hashCodes/filenames.mat');
+queryIndex = xlsread('Lamda/qGroups_4d.xls');
+filenames = filenames;
+N = length(filenames);
+%}
+
+
+load('Barcelona/hashCodes/hashCodes_64.mat');
+data = hashCodes_64;
+data = max(data,0);
+%load('Barcelona/features/features_16.mat');
+%features = features_16;
+load('Barcelona/hashCodes/targets.mat');
+targets = targets;
+load('Barcelona/hashCodes/filenames.mat');
+queryIndex = xlsread('Barcelona/qGroups_4d.xls');
+filenames = filenames;
+N = length(filenames);
+%}
+
+
 queryIndex = transpose( queryIndex ); 
 queryIndex1 = queryIndex(1,:);        % First element of Query Triplets
 queryIndex2 = queryIndex(2,:);        % Second element of Query Triplets

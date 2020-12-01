@@ -1079,18 +1079,18 @@ function hashCodeSelection_f_Callback(hObject, eventdata, handles)
 dataset_index = get(handles.Dataset, 'Value');
 switch dataset_index 
     case 1
-        image_dir =['/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/imageFolder/']; 
-        data_dir = [ '/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/hashCodes'];
-        feature_dir = ['/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/lamdaDataset/features/'];
-        load([data_dir '/filenames']); % File names
-        load([data_dir '/targets']);   % Labels
+        image_dir =['Lamda/imageFolder/']; 
+        data_dir = [ 'Lamda/hashCodes/'];
+        feature_dir = ['Lamda/features/'];
+        load([data_dir 'filenames']); % File names
+        load([data_dir 'targets']);   % Labels
         
     case 2
-        image_dir =['/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/streetsDataset/imageFolder/']; 
-        data_dir = ['/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/streetsDataset/hashCodes'];
-        feature_dir = ['/home/ubuntu/Desktop/Thesis_Follow_Up_2/dmqRetrieval/streetsDataset/features/'];
-        load([data_dir '/filenames']); % File names
-        load([data_dir '/targets']);   % Labels
+        image_dir =['Barcelona/imageFolder/']; 
+        data_dir = ['Barcelona/hashCodes/'];
+        feature_dir = ['Barcelona/features/'];
+        load([data_dir 'filenames']); % File names
+        load([data_dir 'targets']);   % Labels
 end
 
 
@@ -1100,33 +1100,22 @@ switch hashCode_index
    case 1
        load([data_dir '/hashCodes_16']); 
        data = hashCodes_16;
+       data = max(data,0);
        load([feature_dir '/features_16']); 
        features = features_16;
     case 2
        load([data_dir '/hashCodes_32']); 
        data = hashCodes_32;  
+       data = max(data,0);
        load([feature_dir '/features_32']); 
        features = features_32;
     case 3
         load([data_dir '/hashCodes_64']); 
         data = hashCodes_64;
+        data = max(data,0);
         load([feature_dir '/features_64']); 
         features = features_64;
-    case 4
-       load([data_dir '/hashCodes_128']); 
-       data = hashCodes_128;
-       load([feature_dir '/features_128']); 
-        features = features_128;
-    case 5
-        load([data_dir '/hashCodes_256']); 
-        data = hashCodes_256;
-        load([feature_dir '/features_256']); 
-        features = features_256;
-    case 6
-        load([data_dir '/hashCodes_512']); 
-        data = hashCodes_512;
-        load([feature_dir '/features_512']); 
-        features = features_512;
+   
 end
 
 
