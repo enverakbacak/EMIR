@@ -132,7 +132,7 @@ queryIndex5 = queryIndex(5,:);
        q3 = X{l,:}(queryIndex3,:);
        q4 = X{l,:}(queryIndex4,:);
        q5 = X{l,:}(queryIndex5,:);    
-       Cmn(l,:) = (q1(l,:) + q2(l,:) + q3(l,:) + q4(l,:) + + q5(l,:)).'/2;
+       Cmn(l,:) = (q1(l,:) + q2(l,:) + q3(l,:) + q4(l,:) + q5(l,:)).'/2;
        
        
        Dissim{l,:} = EuDist2(Cmn(l,:), input{l,:});
