@@ -182,9 +182,9 @@ queryIndex5 = queryIndex(5,:);
         YY{l,:} = zeros(5,M(l,:)); 
         YY{l,:}(1,:) = dist_f1{l,:};
         YY{l,:}(2,:) = dist_f2{l,:};
-        YY{l,:}(3,:) = dist_f2{l,:};
-        YY{l,:}(4,:) = dist_f2{l,:};
-        YY{l,:}(5,:) = dist_f2{l,:};
+        YY{l,:}(3,:) = dist_f3{l,:};
+        YY{l,:}(4,:) = dist_f4{l,:};
+        YY{l,:}(5,:) = dist_f5{l,:};
         YY{l,:} = (YY{l,:})';
  
         qf1(l,:) = YY{l,:}(end-4,:); 
