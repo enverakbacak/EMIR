@@ -89,17 +89,20 @@ hamming_dist1 = sum(dist_1,2);
 hamming_dist2 = sum(dist_2,2);
 hamming_dist3 = sum(dist_3,2);
 hamming_dist4 = sum(dist_4,2);
+hamming_dist4 = sum(dist_5,2);
 
 n_hamming_dist1 = mat2gray(hamming_dist1);
 n_hamming_dist2 = mat2gray(hamming_dist2);
 n_hamming_dist3 = mat2gray(hamming_dist3);
 n_hamming_dist4 = mat2gray(hamming_dist4); 
+n_hamming_dist5 = mat2gray(hamming_dist5); 
  
 X = zeros(4,N);
 X(1,:) = hamming_dist1;
 X(2,:) = hamming_dist2;
 X(3,:) = hamming_dist3;
 X(4,:) = hamming_dist4;
+X(5,:) = hamming_dist5;
 
 X = (X)';
 input = unique(X, 'rows');
@@ -112,6 +115,7 @@ input = unique(X, 'rows');
 union_of_query_labels = or(targets(queryIndex1, :), targets(queryIndex2, : ));
 union_of_query_labels = or(union_of_query_labels  , targets(queryIndex3, : ));
 union_of_query_labels = or(union_of_query_labels  , targets(queryIndex4, : ));
+union_of_query_labels = or(union_of_query_labels  , targets(queryIndex5, : ));
 absolute_union_of_query_labels = nnz(union_of_query_labels);   
     
  for e = 1:N        
@@ -131,8 +135,9 @@ q1 = X(queryIndex1,:);
 q2 = X(queryIndex2,:); 
 q3 = X(queryIndex3,:); 
 q4 = X(queryIndex4,:);
+q5 = X(queryIndex5,:);
 
-Cmn = (q1(:) + q2(:) + q3(:) + q4(:)).'/2;
+Cmn = (q1(:) + q2(:) + q3(:) + q4(:) + + q5(:)).'/2;
 %plot3(q1 , q2, q3, 'p' , 'MarkerSize',20,'MarkerFaceColor',[1 0 1]);
 %plot3(Cmn(1), Cmn(2), Cmn(3), 'd', 'MarkerSize',20 , 'MarkerFaceColor',[1 0 0]);
 %plot3(q1 , q2, q3, 'gd' , 'LineWidth', 20); 
