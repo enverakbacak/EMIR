@@ -187,7 +187,7 @@ queryIndex4 = queryIndex(4,:);
         % Optimum Point of Pareto space formed by features of the retrived items
         %df(l,:) = pdist2(qf1(l,:),qf2(l,:),'euclid' );
         %Cmn_f(l,:) = [df(l,:)/2 , df(l,:)/2];
-        Cmn_f(l,:) = (qf1(l,:) + qf2(l,:) + qf3(l,:) + + qf4(l,:)).'/2;
+        Cmn_f(l,:) = (qf1(l,:) + qf2(l,:) + qf3(l,:) + qf4(l,:)).'/2;
     
     
     
